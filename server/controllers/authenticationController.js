@@ -18,7 +18,7 @@ module.exports = {
         try {
             const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
             const user = await User.create({
-                email: req.body.email,
+                username: req.body.username,
                 password: hashedPassword
             });
             res.json({
@@ -29,35 +29,34 @@ module.exports = {
             });
         } catch(err) {
             res.status(400).send({
-                error: 'The email you entered already exists.'
+                error: 'The username you entered already exists.'
             })
         }
     },
-    async login (req, res) {
+    async login (req, res, next) {
         try {
-            passport.authenticate('local', {session: false}, (error, user) => {
-                if(err || !user){
+            passport.authenticate('login', {session: false}, (error, user) => {
+                if(error || !user) { 
                     const error = new Error('The Login information was incorrect.')
                     return next(error);
+                } else {
+                    req.login(user, { session : false }, async (error) => {
+                        if (error) {
+                            res.status(400).send({
+                                error: 'Wrong combination.' 
+                            });
+                        }
+                        const updatedUser = {_id: user._id, username: user.username};
+                        res.json({
+                            status: "success",
+                            message: 'User login sucessfully.',
+                            auth: true,
+                            user: updatedUser,
+                            token: jwtSignUser(user.toJSON())
+                        });
+                    })
                 }
-            })
-            const { email, password } = req.body;
-            const user = await User.findOne({ email: email });
-            const passwordIsValid = bcrypt.compareSync(password, user.password);
-            if (!user || !passwordIsValid){
-                return res.status(403).send({
-                    error: 'The Login information was incorrect.'
-                })
-            } else {
-                const updatedUser = {_id: user._id, email: user.email};
-                res.json({
-                    status: "success",
-                    message: 'User login sucessfully.',
-                    auth: true,
-                    user: updatedUser,
-                    token: jwtSignUser(user.toJSON())
-                });
-            }
+            }) (req, res, next);
         } catch(err) {
             res.status(500).send({
                 error: 'Something went wrong trying to log you in. Try again.'
