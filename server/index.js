@@ -4,14 +4,16 @@ const cors = require('cors')
 const morgan = require('morgan')
 const dbConfig = require('./config/config');
 const mongoose = require('mongoose');
+const passport = require('passport')
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('combined'));
+app.use(passport.initialize());
 
-// require('./authentication/passport');
+require('./authentication/passport');
 
 // Connect to Mongoose and set connection variable
 mongoose.connect(dbConfig.url, { useNewUrlParser: true, useCreateIndex: true}).then(() => {
