@@ -1,6 +1,6 @@
 User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
-const config = require('../config/jwt');
+const config = require('../config/jwtConfig');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const saltRounds = 10;
@@ -36,14 +36,16 @@ module.exports = {
     async login (req, res, next) {
         try {
             passport.authenticate('login', {session: false}, (error, user) => {
-                if(error || !user) { 
-                    const error = new Error('The Login information was incorrect.')
+                if (error || !user) { 
+                    res.status(400).send({
+                        error: 'Incorrect Username/Password combination.'
+                    })
                     return next(error);
                 } else {
                     req.login(user, { session : false }, async (error) => {
                         if (error) {
-                            res.status(400).send({
-                                error: 'Wrong combination.' 
+                            res.status(500).send({
+                                error: 'Something went wrong. Try again.' 
                             });
                         }
                         const updatedUser = {_id: user._id, username: user.username};

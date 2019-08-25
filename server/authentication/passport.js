@@ -8,16 +8,16 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const bcrypt = require('bcrypt');
 
-passport.use(new LocalStrategy({
-    usernameField: username,
-    passwordField: password,
+passport.use('login', new LocalStrategy({
+    usernameField: 'username',
+    passwordField: 'password'
     }, 
     async (username, password, done) => {
     try {
       const user = await User.findOne({username: username});
       const passwordIsValid = bcrypt.compareSync(password, user.password);
       if (!user || !passwordIsValid) {
-            return done(null, false, {message: 'Incorrect Username/Password combination'});
+            return done(null, false, {error: 'Incorrect Username/Password combination'});
         } else {
             return done(null, user);
         }
@@ -43,6 +43,5 @@ passport.use(new JwtStrategy({
         return done(err, false);
     }
 }))
-
 
 module.exports = null;
