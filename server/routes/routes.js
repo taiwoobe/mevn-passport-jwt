@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const AuthenticationController = require('../controllers/authenticationController');
-const isAuthenticated = require('../authentication/auth');
+const usersController = require('../controllers/usersController');
+const authentication = require('../authentication/auth');
 
 router.post('/register', AuthenticationController.register);
 router.post('/login', AuthenticationController.login);
+router.get('/users', authentication, usersController.getUsers);
 
 // Export API routes
 module.exports = router;

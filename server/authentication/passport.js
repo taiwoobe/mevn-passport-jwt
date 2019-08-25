@@ -3,11 +3,12 @@ const User = require('../models/userModel')
 const config = require('../config/jwtConfig')
 
 const JwtStrategy = require('passport-jwt').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const bcrypt = require('bcrypt');
 
-passport.use(new LocalStrategy({
+passport.use('login', new LocalStrategy({
     usernameField: username,
     passwordField: password,
     }, 
