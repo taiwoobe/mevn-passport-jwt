@@ -52,7 +52,7 @@ export default new Vuex.Store({
     register({commit}, user) {
       return new Promise((resolve, reject) => {
         commit('auth_request');
-        HTTP({url: 'register', data: user, method: 'POST'}).then(result => {
+        HTTP.post('register', user).then(result => {
           const token = result.data.token;
           const currentUser = result.data.user;
           localStorage.setItem('token', token);
