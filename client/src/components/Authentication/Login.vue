@@ -32,7 +32,6 @@ export default {
         const {username, password} = this;
         this.$store.dispatch('login', {username, password}).then(() => {
             this.$router.push('/');
-            console.log("Login button clicked");
         }).catch(error => {
             console.log(error);
         })

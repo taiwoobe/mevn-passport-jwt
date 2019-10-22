@@ -18,7 +18,10 @@
           </li>
         </ul>
         <router-link v-if="!isLoggedIn" class="btn btn-primary" to="/login">Login</router-link>
-        <button v-else  class="btn btn-primary">Logout</button>
+        <div v-else>
+        <p>Welcome {{ loggedInUser.username }}</p>
+        <button class="btn btn-primary" @click="logout">Logout</button>
+        </div>
       </div>
     </nav>
   </div>
@@ -32,7 +35,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isLoggedIn"])
+    ...mapGetters(['isLoggedIn', 'loggedInUser'])
   },
   methods: {
     logout() {

@@ -34,7 +34,6 @@
                 }
                 this.$store.dispatch('register', user).then(() => {
                     this.$router.push('/');
-                    console.log('Registration Button clicked');
                 }).catch(error => {
                     console.log(error);
                 })
