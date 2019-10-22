@@ -28,6 +28,7 @@ export default new Vuex.Store({
     logout(state) {
       state.token = '';
       state.status = '';
+      state.currentUser = {}
     }
   },
   actions: {
