@@ -19,7 +19,7 @@
         </ul>
         <router-link v-if="!isLoggedIn" class="btn btn-primary" to="/login">Login</router-link>
         <div v-else>
-        <p>Welcome {{ loggedInUser.username }}</p>
+        <p class="d-inline-block mr-3">Welcome {{ loggedInUser.username }}</p>
         <button class="btn btn-primary" @click="logout">Logout</button>
         </div>
       </div>
