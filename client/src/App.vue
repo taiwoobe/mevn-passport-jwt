@@ -1,12 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <header-navigation></header-navigation>
     <router-view/>
   </div>
 </template>
+
+<script>
+import headerNavigation from './components/Navigation/header'
+export default {
+  components: {
+    headerNavigation: headerNavigation
+  },
+  data() {
+    return {
+      
+    }
+  },
+}
+</script>
 
 <style lang="scss">
 #app {

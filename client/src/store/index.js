@@ -9,6 +9,9 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
+    login({commit}) {
+      console.log('Button clicked from store');
+    }
   },
   modules: {
   }
