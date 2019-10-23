@@ -40,4 +40,7 @@ export default {
     }
   }
 }
+.alert {
+  padding: 8px 20px;
+}
 </style>

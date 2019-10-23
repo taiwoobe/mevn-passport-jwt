@@ -11,6 +11,7 @@
       <div class="form-group">
         <button type="submit" class="btn btn-primary btn-block">Login</button>
       </div>
+      <div class="alert alert-danger" role="alert" v-if="error"> {{ error }} </div>
     </form>
     <p class="text-center">
       <router-link to="/register">Create an Account</router-link>
@@ -24,17 +25,23 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      error: ""
     };
   },
   methods: {
     login() {
-        const {username, password} = this;
-        this.$store.dispatch('login', {username, password}).then(() => {
-            this.$router.push('/');
-        }).catch(error => {
-            console.log(error);
-        })
+      const {username, password} = this;
+      this.error = '';
+      this.$store.dispatch('login', {username, password}).then(() => {
+        this.$router.push('/');
+      }).catch(error => {
+        if (error.status = 400) {
+          this.error = 'Incorrect Username/Password combination.';
+        } else {
+          this.error = 'Something went wrong. Please try again.';
+        }
+      })
     }
   }
 };
