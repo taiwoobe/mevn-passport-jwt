@@ -19,11 +19,32 @@ module.exports = {
             const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
             const user = await User.create({
                 username: req.body.username,
-                password: hashedPassword
+                password: hashedPassword,
+                role: 'user'
             });
             res.json({
                 status: "success",
                 message: 'User created sucessfully.',
+                user: user,
+                token: jwtSignUser(user.toJSON())
+            });
+        } catch(err) {
+            res.status(400).send({
+                error: 'The username you entered already exists.'
+            })
+        }
+    },
+    async registerAdmin (req, res) {
+        try {
+            const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
+            const user = await User.create({
+                username: req.body.username,
+                password: hashedPassword,
+                role: 'admin'
+            });
+            res.json({
+                status: "success",
+                message: 'Admin created sucessfully.',
                 user: user,
                 token: jwtSignUser(user.toJSON())
             });
@@ -48,7 +69,7 @@ module.exports = {
                                 error: 'Something went wrong. Try again.' 
                             });
                         }
-                        const updatedUser = {_id: user._id, username: user.username};
+                        const updatedUser = {_id: user._id, username: user.username, role: user.role};
                         res.json({
                             status: "success",
                             message: 'User login sucessfully.',
