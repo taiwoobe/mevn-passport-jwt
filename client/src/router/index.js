@@ -5,6 +5,8 @@ import Home from '../views/Home.vue'
 import Login from '../components/Authentication/Login'
 import Register from '../components/Authentication/Register'
 import Dashboard from '../views/Dashboard'
+import Users from '../views/Users'
+import Admin from '../views/Admin'
 import PageNotFound from '../components/PageNotFound'
 
 Vue.use(VueRouter)
@@ -48,7 +50,27 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      adminAccess: true,
+      userAccess: true
+    }
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: Users,
+    meta: {
+      requiresAuth: true,
+      userAccess: true
+    }
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    meta: {
+      requiresAuth: true,
+      adminAccess: true
     }
   }
 ]

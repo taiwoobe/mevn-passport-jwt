@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>This page is visible to logged in users (general & admin)</p>
+        <p>This is only visible to logged in users with user role access</p>
     </div>
 </template>
 
