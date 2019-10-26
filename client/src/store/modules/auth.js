@@ -60,6 +60,23 @@ const actions = {
             })
         })
     },
+    registerAdmin({ commit }, user) {
+        return new Promise((resolve, reject) => {
+            commit('auth_request');
+            HTTP.post('register-admin', user).then(result => {
+                const token = result.data.token;
+                const currentUser = result.data.user;
+                localStorage.setItem('token', token);
+                HTTP.defaults.headers.common['Authorization'] = token;
+                commit('auth_success', { token, currentUser });
+                resolve(result);
+            }).catch(error => {
+                commit('auth_error');
+                localStorage.removeItem('token');
+                reject(error);
+            })
+        })
+    },
     logout({ commit }) {
         return new Promise((resolve, reject) => {
             commit('logout');
