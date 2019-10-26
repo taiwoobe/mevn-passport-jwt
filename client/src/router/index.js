@@ -51,8 +51,6 @@ const routes = [
     component: Dashboard,
     meta: {
       requiresAuth: true,
-      adminAccess: true,
-      userAccess: true
     }
   },
   {
@@ -88,6 +86,23 @@ router.beforeEach((to, from, next) => {
         path: '/login'
       });
     } else {
+      if (to.matched.some(record => record.meta.adminAccess)) {
+        if (store.getters.loggedInUser.role == 'admin') {
+          next();
+        } else {
+          next({
+            path: '/users'
+          })
+        }
+      } else if (to.matched.some(record => record.meta.userAccess)) {
+        if (store.getters.loggedInUser.role == 'user') {
+          next();
+        } else {
+          next({
+            path: '/admin'
+          })
+        }
+      }
       next();
     }
   } else if (to.matched.some(record => record.meta.guest)) {

@@ -14,7 +14,13 @@
             <router-link class="nav-link" to="/about">About</router-link>
           </li>
           <li class="nav-item" v-if="isLoggedIn">
-            <router-link class="nav-link" to="/Dashboard">Dashboard</router-link>
+            <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
+          </li>
+          <li class="nav-item" v-if="loggedInUser.role == 'user'">
+            <router-link class="nav-link" to="/users">Users</router-link>
+          </li>
+          <li class="nav-item" v-if="loggedInUser.role == 'admin'">
+            <router-link class="nav-link" to="/admin">Admin</router-link>
           </li>
         </ul>
         <router-link v-if="!isLoggedIn" class="btn btn-primary" to="/login">Login</router-link>
