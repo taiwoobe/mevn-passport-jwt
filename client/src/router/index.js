@@ -8,6 +8,7 @@ import Dashboard from '../views/Dashboard'
 import Users from '../views/Users'
 import Admin from '../views/Admin'
 import PageNotFound from '../components/PageNotFound'
+import singlePost from '../views/singlePost'
 
 Vue.use(VueRouter)
 
@@ -49,6 +50,14 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
+    meta: {
+      requiresAuth: true,
+    }
+  },
+  {
+    path: '/dashboard/:id',
+    name: 'Single Post',
+    component: singlePost,
     meta: {
       requiresAuth: true,
     }
